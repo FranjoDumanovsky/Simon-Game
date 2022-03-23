@@ -7,9 +7,9 @@ var level = 0;
 const colors = ["green", "red", "blue", "yellow"];
 var levelTitle = document.querySelector("#level-title");
 
-if (!gameStarted) {
-  window.addEventListener("keypress", randomColor)
-}
+
+
+
 
 // Function that returns random color from the Colors array
 function randomColor() {
@@ -17,9 +17,21 @@ function randomColor() {
   var color = colors[number];
   computerPattern.push(color);
   animate(color)
-  gameStarted = true;
+
+
   levelTitle.innerHTML = "Level " + `${level}`;
  }
+
+
+
+  window.addEventListener("keypress", function () {
+    if (!gameStarted) {
+      randomColor();
+      gameStarted = true;
+    }
+  });
+
+
 
 // function that animates color button
  function animate(color){
@@ -30,11 +42,13 @@ function randomColor() {
   }, 200)
  }
 
+
  for (i = 0; i < document.querySelectorAll(".btn").length; i++) {
     document.querySelectorAll(".btn")[i].addEventListener("click", function() {
+      if (gameStarted) {
         playerPattern.push(this.id)
-        console.log(this.id)
         compare();
+      }
     });
 }
 
@@ -53,5 +67,7 @@ function compare () {
     levelTitle.innerHTML = "Game over! Press any key to restart!"
     level = 0;
     gameStarted = false;
+    computerPattern = [];
+    playerPattern = [];
   }  
 }
